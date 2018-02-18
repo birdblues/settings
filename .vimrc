@@ -2,7 +2,7 @@ set nocompatible
 filetype off
  
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin('~/.config/nvim/bundle')
+call vundle#begin('~/.vim/bundle')
  
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
@@ -21,6 +21,7 @@ Plugin 'davidhalter/jedi-vim'
 call vundle#end()
 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
