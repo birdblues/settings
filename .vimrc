@@ -1,6 +1,8 @@
 set nocompatible
 filetype off
- 
+
+source ~/.vim/bundle/vim-unimpaired/plugin/unimpaired.vim
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin('~/.vim/bundle')
  
@@ -17,11 +19,46 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'kien/ctrlp.vim'
  
 call vundle#end()
 
-let g:airline#extensions#tabline#enabled = 1
+let mapleader=" "
+
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+nnoremap <Leader>0 :10b<CR>
+
+" 기본 무시 설정
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+
+" 가장 가까운 .git 디렉토리를 cwd(현재 작업 디렉토리)로 사용
+" 버전 관리를 사용하는 프로젝트를 할 때 꽤 적절하다.
+" .svn, .hg, .bzr도 지원한다.
+let g:ctrlp_working_path_mode = 'r'
+
+" 단축키를 리더 키로 대체
+" nmap <leader>p :CtrlP<cr>
+
+" 여러 모드를 위한 단축키
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='powerlineish'
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -50,7 +87,7 @@ set foldmethod=indent
 set foldlevel=99
 
 " Enable folding with the spacebar
-nnoremap <space> za
+" nnoremap <space> za
 
 set encoding=utf-8
 
