@@ -11,6 +11,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'jnurmine/Zenburn'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'tmhedberg/SimpylFold'
@@ -20,10 +21,28 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'kien/ctrlp.vim'
- 
+Plugin 'jremmen/vim-ripgrep'
+
 call vundle#end()
 
 let mapleader=" "
+
+map <F5> <ESC>:s/^\(.\+\)$/\/* \1 *\//<CR>:noh<CR>
+map <F6> <ESC>:Rg <C-R><C-W><CR>
+map <F7> <ESC>:Rg -t c <C-R><C-W><CR>
+map <F8> <ESC>:Rg -t java <C-R><C-W><CR>
+map <F10> <ESC>:cn<CR>
+map <F11> <ESC>:cl<CR>
+map <F12> <ESC>:cp<CR>
+
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+cmap cdiff CVSVimDiff<CR>
+cmap sdiff SVNVimDiff<CR>
+
+nnoremap <Leader>t :enew<Enter>         " 새로운 버퍼를 연다
+nnoremap <Leader><tab> :bnext!<CR>        " 다음 버퍼로 이동
 
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
@@ -35,6 +54,9 @@ nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
+
+
+let g:rg_command = 'rg -j 8 --vimgrep'
 
 " 기본 무시 설정
 let g:ctrlp_custom_ignore = {
@@ -48,12 +70,9 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 'r'
 
 " 단축키를 리더 키로 대체
-" nmap <leader>p :CtrlP<cr>
-
-" 여러 모드를 위한 단축키
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
+nmap <leader>p :CtrlP<cr>
+nmap <leader>m :CtrlPMRU<cr>
+nmap <leader>b :CtrlPBuffer<cr>
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -70,11 +89,17 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 0
 let g:syntastic_quiet_messages = { "type": "style" }
+let g:syntastic_java_checkers=['javac']
+let g:syntastic_java_javac_config_file_enabled = 1
+let g:loaded_syntastic_java_javac_checker = 1
+" let g:syntastic_mode_map = { 'mode': 'active',
+"                            \ 'active_filetypes': ['python', 'bar'],
+"                            \ 'passive_filetypes': ['java'] }
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-map <C-n> :NERDTreeToggle<CR>
+map <leader>n :NERDTreeToggle<CR>
 
 "split navigations
 nnoremap <C-Down> <C-W><C-J>
@@ -108,7 +133,7 @@ set pastetoggle=<F2>
 :imap <c-s> <Esc>:w<CR>a
 :imap <c-s> <Esc><c-s>
 
-" let python_highlight_all=1
+let python_highlight_all=1
 
 syntax on
 set background=dark
@@ -123,12 +148,12 @@ set cursorline
 filetype on
 filetype plugin indent on
 
-au BufReadPost,BufNewFile *.twig colorscheme koehler
-au BufReadPost,BufNewFile *.css colorscheme slate
-au BufReadPost,BufNewFile *.js colorscheme slate2
-au BufReadPost,BufNewFile *.py colorscheme molokaiyo
-au BufReadPost,BufNewFile *.html colorscheme monokai
-au BufReadPost,BufNewFile *.java colorscheme monokai
+" au BufReadPost,BufNewFile *.twig colorscheme koehler
+" au BufReadPost,BufNewFile *.css colorscheme slate
+" au BufReadPost,BufNewFile *.js colorscheme slate2
+" au BufReadPost,BufNewFile *.py colorscheme molokaiyo
+" au BufReadPost,BufNewFile *.html colorscheme monokai
+" au BufReadPost,BufNewFile *.java colorscheme monokai
 " au BufReadPost,BufNewFile *.php colorscheme monokai
 
 " Default line highlighting for unknown filetypes
@@ -178,3 +203,5 @@ autocmd BufReadPost *
 "I like the vertical bar on insert mode, others do not like.  You decide.
 "let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+"
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
