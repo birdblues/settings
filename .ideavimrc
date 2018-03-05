@@ -1,0 +1,3 @@
+set surround
+imap <C-u> <ESC>I
+imap <C-m> <ESC>A
