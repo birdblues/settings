@@ -68,3 +68,9 @@ vi ~/.gitignore
 # .gitignore에 제외하고 싶은 .env를 써준다.
 .env
 ```
+## java 7
+
+```
+brew tap caskroom/versions
+brew cask install java7
+```

@@ -7,13 +7,15 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin('~/.vim/bundle')
  
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 Plugin 'vim-scripts/indentpython.vim'
-Plugin 'vim-syntastic/syntastic'
+" Plugin 'vim-syntastic/syntastic'
+Plugin 'w0rp/ale'
 Plugin 'jnurmine/Zenburn'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -22,8 +24,48 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'jremmen/vim-ripgrep'
+Plugin 'mileszs/ack.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'skielbasa/vim-material-monokai'
+Plugin 'Dru89/vim-adventurous'
+Plugin 'ajmwagar/vim-deus'
+Plugin 'gkjgh/cobalt'
+Plugin 'NewProggie/NewProggie-Color-Scheme'
+Plugin 'crater2150/vim-theme-chroma'
+Plugin 'roosta/vim-srcery'
+Plugin 'rakr/vim-one'
+Plugin 'lifepillar/vim-solarized8'
+Plugin 'lanox/lanox-vim-theme'
+Plugin 'junegunn/seoul256.vim'
+Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()
+
+let g:ale_linters = {
+  \ 'python': ['pycodestyle'] ,
+  \ }
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+" cursor shape
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 
 let mapleader=" "
 
@@ -31,18 +73,19 @@ map <F5> <ESC>:s/^\(.\+\)$/\/* \1 *\//<CR>:noh<CR>
 map <F6> <ESC>:Rg <C-R><C-W><CR>
 map <F7> <ESC>:Rg -t c <C-R><C-W><CR>
 map <F8> <ESC>:Rg -t java <C-R><C-W><CR>
-map <F10> <ESC>:cn<CR>
-map <F11> <ESC>:cl<CR>
-map <F12> <ESC>:cp<CR>
+map <F2> <ESC>:cn<CR>
+map <F3> <ESC>:cl<CR>
+map <F4> <ESC>:cp<CR>
+imap <C-u> <Home>
+imap <C-m> <End>
+nmap <C-o> o<Esc>
+nmap <C-O> O<Esc>
 
-vmap <Tab> >gv
-vmap <S-Tab> <gv
+" cmap cdiff CVSVimDiff<CR>
+" cmap sdiff SVNVimDiff<CR>
 
-cmap cdiff CVSVimDiff<CR>
-cmap sdiff SVNVimDiff<CR>
-
-nnoremap <Leader>t :enew<Enter>         " 새로운 버퍼를 연다
-nnoremap <Leader><tab> :bnext!<CR>        " 다음 버퍼로 이동
+" nnoremap <Leader>t :enew<Enter>         " 새로운 버퍼를 연다
+" nnoremap <Leader><tab> :bnext!<CR>        " 다음 버퍼로 이동
 
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
@@ -55,6 +98,38 @@ nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 
+"
+" YouCompleteMe options
+
+" let g:ycm_autoclose_preview_window_after_completion=1
+" map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" let g:ycm_register_as_syntastic_checker = 1 "default 1
+" let g:Show_diagnostics_ui = 1 "default 1
+
+"will put icons in Vim's gutter on lines that have a diagnostic set.
+"Turning this off will also turn off the YcmErrorLine and YcmWarningLine
+"highlighting
+" let g:ycm_enable_diagnostic_signs = 1
+" let g:ycm_enable_diagnostic_highlighting = 1
+" let g:ycm_always_populate_location_list = 1 "default 0
+" let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+
+" let g:ycm_complete_in_strings = 1 "default 1
+" let g:ycm_collect_identifiers_from_tags_files = 0 "default 0
+" let g:ycm_path_to_python_interpreter = '' "default ''
+
+" let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
+" let g:ycm_server_log_level = 'info' "default info
+
+" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'  "where to search for .ycm_extra_conf.py if not found
+" let g:ycm_confirm_extra_conf = 1
+
+" let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
+" let g:ycm_filetype_whitelist = { '*': 1 }
+" let g:ycm_key_invoke_completion = '<C-Space>'
+
+" nnoremap <F11> :YcmForceCompileAndDiagnostics <CR>
 
 let g:rg_command = 'rg -j 8 --vimgrep'
 
@@ -102,10 +177,10 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 map <leader>n :NERDTreeToggle<CR>
 
 "split navigations
-nnoremap <C-Down> <C-W><C-J>
-nnoremap <C-Up> <C-W><C-K>
-nnoremap <C-Right> <C-W><C-L>
-nnoremap <C-Left> <C-W><C-H>
+nnoremap <C-j> <C-W><C-J>
+nnoremap <C-k> <C-W><C-K>
+nnoremap <C-l> <C-W><C-L>
+nnoremap <C-h> <C-W><C-H>
 
 " Enable folding
 set foldmethod=indent
@@ -116,18 +191,15 @@ set foldlevel=99
 
 set encoding=utf-8
 
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
 " System clipboard
 set clipboard=unnamed
 
 "The following three lines map Ctrl+s to save in vi.  You can comment
-"these out, it has nothing to do with syntax highlighting or colors.
+"these out, it has nothing to do with syntax sssighlighting or colors.
 
-" optional lines to turn on pressing F2 to toggle paste mode
-noremap <F2> :set invpaste paste?<CR>i
-set pastetoggle=<F2>
+" optional lines to turn on pressing F10 to toggle paste mode
+noremap <F10> :set invpaste paste?<CR>i
+set pastetoggle=<F10>
 
 :nmap <c-s> :w<CR>
 :imap <c-s> <Esc>:w<CR>a
@@ -205,3 +277,27 @@ autocmd BufReadPost *
 "let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 "
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
+" set pastetoggle=<f5>
+
+" colorscheme
+"
+" seoul256 (dark):
+"   Range:   233 (darkest) ~ 239 (lightest)
+"   Default: 237
+" let g:seoul256_background = 233
+" colo seoul256
+" colorscheme monokai
+set background=dark
+set termguicolors
+" colorscheme one
+" colorscheme material-monokai
+" colorscheme adventurous
+" colorscheme deus
+" colorscheme cobalt
+" colorscheme chroma
+colorscheme lanox
+
+hi QuickFixLine term=reverse ctermbg=52
+hi LineNr ctermfg=240
+
